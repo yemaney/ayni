@@ -4,7 +4,7 @@
 import os
 
 
-def find_all_code(dir: str, exts: list):
+def find_all_code(dir: str, exts: str):
     """
     Recursively search a directory for files that end with an extension from a
     given list of extensions.
@@ -13,8 +13,8 @@ def find_all_code(dir: str, exts: list):
     ----------
     dir : str
         the root directory to search
-    exts: list
-        a list of file extensions to filter by
+    exts: str
+        comma separate list of file extensions to search for. ex) `".py,.go"`
 
     Yields
     ------
@@ -29,8 +29,9 @@ def find_all_code(dir: str, exts: list):
     if not os.path.isdir(dir):
         raise ValueError(f"{dir} is not a valid directory.")
 
+    ext_list = [e.strip() for e in exts.split(",")]
     for root, _, files in os.walk(dir):
         for file in files:
             _, ext = os.path.splitext(file)
-            if ext in exts:
+            if ext in ext_list:
                 yield os.path.join(root, file)

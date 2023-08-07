@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ayni"
-version = "0.2.0"
+version = "0.2.1"
 description = "Chat with your codebase"
 authors = ["yemaney <yemane_@outlook.com>"]
 license = "MIT"
