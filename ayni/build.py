@@ -4,5 +4,5 @@ Language.build_library(
     # Store the library in the `build` directory
     "ayni/build/my-languages.so",
     # Include one or more languages
-    ["vendor/tree-sitter-python"],
+    ["tree-sitter-python"],
 )
