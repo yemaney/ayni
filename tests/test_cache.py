@@ -11,7 +11,7 @@ def test_embedding_cache(test_directory):
         return x
 
     for func in get_python_functions(f"{test_directory}/file2.py"):
-        cache_embedding(func, embedding_cache, path=f"{test_directory}/embeddings_cache.pkl", register_func=rf)
+        cache_embedding(func, embedding_cache, path=f"{test_directory}/embeddings_cache.pkl", model="", register_func=rf)
 
     assert "def func1():\n\tpass" in embedding_cache
     assert "def func2():\n\tpass" in embedding_cache
