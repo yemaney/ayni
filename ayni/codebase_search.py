@@ -20,15 +20,7 @@ def find_all_code(dir: str, exts: str):
     ------
     str
         path to files
-
-    Raises
-    ------
-    ValueError
-        if the passed `dir` is not a valid directory
     """
-    if not os.path.isdir(dir):
-        raise ValueError(f"{dir} is not a valid directory.")
-
     ext_list = [e.strip() for e in exts.split(",")]
     for root, _, files in os.walk(dir):
         for file in files:
