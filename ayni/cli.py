@@ -12,6 +12,8 @@ from dotenv import load_dotenv
 from ayni.cache import cache_embedding, set_embedding_cache
 from ayni.codebase_search import find_all_code
 from ayni.parse import get_python_functions
+from ayni.prompt import create_prompt, gpt_request
+from ayni.similar import get_most_similar
 from ayni.types import Extension
 
 
@@ -20,6 +22,11 @@ def main(args):
     for f in find_all_code(args.d, args.e):
         for func in get_python_functions(f):
             cache_embedding(func, embedding_cache, args.p, args.em)
+
+    function = get_most_similar(args.query, args.em, embedding_cache)
+    prompt = create_prompt(args.query, function)
+    res = gpt_request(prompt)
+    print(res)
 
 
 def cli_args() -> Namespace:
@@ -37,6 +44,7 @@ def cli_args() -> Namespace:
     openai_key = os.getenv("OPENAI_KEY")
 
     parser = argparse.ArgumentParser(description="Ayni: Chat with your codebase")
+    parser.add_argument("-q", "--query", help="question for the codebase")
     parser.add_argument("-d", help="codebase root director", default=def_dir)
     parser.add_argument("-e", help="comma separate list of file extensions to search for. ex) .py,.go", default=def_ext)
     parser.add_argument("-p", help="Path to .pkl file where the embedding cache will be stored", default=embedding_path)

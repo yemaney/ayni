@@ -9,20 +9,18 @@ LANG_DIR = f"{os.path.dirname(os.path.realpath(__file__))}/build/my-languages.so
 
 
 def get_python_functions(file_path: str):
-    """
-    Loads a python file and parses each function name in the python file.
+    """get_python_functions Loads a python file and parses each function name in the python file.
 
     Parameters
     ----------
     file_path : str
         file path to a python file
 
-    Returns
-    -------
-    dict
-        dict of function names found in the file
+    Yields
+    ------
+    str
+        string of function found in the file
     """
-
     with open(file_path) as fp:
         source_code = fp.read()
 
