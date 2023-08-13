@@ -3,17 +3,21 @@
 
 import argparse
 import os
+import sys
 
+import openai
 from dotenv import load_dotenv
 
+from ayni.cache import cache_embedding, set_embedding_cache
 from ayni.codebase_search import find_all_code
 from ayni.parse import get_python_functions
 
 
 def main(dir, ext):
+    embedding_cache = set_embedding_cache()
     for f in find_all_code(dir, ext):
-        funcs = get_python_functions(f)
-        print(f"file:{f} has functions: {funcs}")
+        for func in get_python_functions(f):
+            cache_embedding(func, embedding_cache)
 
 
 if __name__ == "__main__":
@@ -21,6 +25,12 @@ if __name__ == "__main__":
 
     def_dir = os.getenv("AYNI_DIR")
     def_ext = os.getenv("AYNI_EXTENSIONS")
+    openai_key = os.getenv("OPENAI_KEY")
+    if openai_key is None:
+        print("\033[91mError\033[0m: No OPENAI_KEY found in environment variables.")
+        sys.exit(1)
+
+    openai.api_key = openai_key
 
     parser = argparse.ArgumentParser(description="Ayni: Chat with your codebase")
     parser.add_argument("dir", nargs="?", help="codebase root director", default=def_dir)
