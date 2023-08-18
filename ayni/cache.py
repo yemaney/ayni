@@ -4,7 +4,7 @@
 import pickle
 from typing import Callable
 
-from openai.embeddings_utils import get_embedding
+from .similar import get_embedding
 
 
 def set_embedding_cache(path: str) -> dict:

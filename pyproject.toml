@@ -10,10 +10,11 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "<3.13,>=3.9"
 python-dotenv = "^1.0.0"
+scipy = "^1.11.2"
 tree-sitter = "^0.20.1"
-openai = {extras = ["embeddings"], version = "^0.27.8"}
+openai = "^0.27.8"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
