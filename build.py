@@ -1,3 +1,6 @@
+"""This is a utility python script used to build the c extension files for ayni.
+"""
+
 from tree_sitter import Language
 
 Language.build_library(
