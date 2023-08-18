@@ -10,10 +10,57 @@ permissions:
 name: release-please
 
 jobs:
+    build:
+      strategy:
+        matrix:
+          platform: [ubuntu-latest, macos-latest, windows-latest]
+      runs-on: ${{ matrix.platform }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Set up Python 3.10
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.11'
+        - name: Build the pkg
+          run: |
+            python -m pip install --upgrade pip
+            pip install .
+            git clone https://github.com/tree-sitter/tree-sitter-python
+            python -m ayni.build
+        - name: Archive production artifacts
+          uses: actions/upload-artifact@v3
+          with:
+            name: ayni-${{ matrix.platform }}
+            path: |
+              ayni
+              pyproject.toml
+
     release-please:
+
+        needs: build
         runs-on: ubuntu-latest
         steps:
         - uses: google-github-actions/release-please-action@v3
+          id: release
           with:
             release-type: python
             package-name: release-please-action
+
+        - name: Download all workflow run artifacts
+          if: ${{ steps.release.outputs.release_created }}
+          uses: actions/download-artifact@v3
+          with:
+            path: ./artifacts
+
+        - name: Display structure of downloaded files
+          if: ${{ steps.release.outputs.release_created }}
+          run: ls -R
+          working-directory: ./artifacts
+
+        - name: Upload Release Artifact
+          if: ${{ steps.release.outputs.release_created }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run:
+            gh release upload ${{ steps.release.outputs.tag_name }} ./artifacts/
