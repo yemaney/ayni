@@ -43,6 +43,11 @@ jobs:
             release-type: python
             package-name: release-please-action
 
+
+        - name: Checkout
+          if: ${{ steps.release.outputs.release_created }}
+          uses: actions/checkout@v3
+
         - name: Download all workflow run artifacts
           if: ${{ steps.release.outputs.release_created }}
           uses: actions/download-artifact@v3

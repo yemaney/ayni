@@ -25,8 +25,15 @@ def main(args):
 
     function = get_most_similar(args.query, args.em, embedding_cache)
     prompt = create_prompt(args.query, function)
+    print(f"\n\033[34m{prompt}\033[0m")
+    while True:
+        user_input = input("Make a request with this prompt? Y/N: ")
+        if user_input.lower() != "y":
+            sys.exit(1)
+        else:
+            break
     res = gpt_request(prompt)
-    print(res)
+    print(f"\n\033[32m{res}\033[0m")
 
 
 def cli_args() -> Namespace:
