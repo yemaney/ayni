@@ -17,7 +17,13 @@ from ayni.similar import get_most_similar
 from ayni.types import Extension
 
 
-def main(args):
+def main():
+    """main function that controls the flow of the ayni cli"""
+    load_dotenv(f"{os.getcwd()}/.env")  # take environment variables from .env.
+
+    args = cli_args()
+    catch_arg_errors(args)
+
     embedding_cache = set_embedding_cache(args.p)
     for f in find_all_code(args.d, args.e):
         for func in get_python_functions(f):
@@ -95,9 +101,4 @@ def catch_arg_errors(args: Namespace):
 
 
 if __name__ == "__main__":
-    load_dotenv(f"{os.getcwd()}/.env")  # take environment variables from .env.
-
-    args = cli_args()
-    catch_arg_errors(args)
-
-    main(args)
+    main()
