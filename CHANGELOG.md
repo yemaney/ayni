@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/yemaney/ayni/compare/v0.3.0...v0.3.1) (2023-08-20)
+
+
+### Documentation
+
+* add docs to README.md ([1ea680a](https://github.com/yemaney/ayni/commit/1ea680a908997276b7f3dccb1ef5140baa15b608))
+
 ## [0.3.0](https://github.com/yemaney/ayni/compare/v0.2.0...v0.3.0) (2023-08-20)
 
 
